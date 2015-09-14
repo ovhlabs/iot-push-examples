@@ -3,9 +3,7 @@
 ###########################################################
 
 import json
-import urllib2
-import urllib
-import base64
+import requests
 
 # Place your token id here
 token_id = 'w3eaaaqaa7pff'
@@ -51,21 +49,17 @@ data = [{
 			}]
 
 try:
-	# Create http request
-	req = urllib2.Request(end_point, json.dumps(data), { 'Content-Type': 'application/json' } )
-
-	# Setup http basic auth
-	base64string = base64.encodestring( '%s:%s' % (token_id, token_key ) ).replace( '\n', '' )
-	req.add_header( 'Authorization', 'Basic %s' % base64string )
+	# Create http session
+    session = requests.session()
 
 	# Send request and fetch response
-	response = urllib2.urlopen(req)
+    response = session.post(end_point, data=json.dumps(data), auth=(token_id, token_key))
+
+    # raise error
+    response.raise_for_status()
 
 	# Print the http response code on success
-	print( 'Send successful\nResponse code from server:{} '.format( response.getcode() ) )
+	print( 'Send successful\nResponse code from server:{} '.format( response.status_code ) )
 
-except urllib2.HTTPError, e:
-	print( 'HTTP code is {} and reason is {}'.format( e.code, e.reason ) )
-
-except Exception, e:
-    print( 'Exception is {} '.format( str( e ) ) )
+except requests.exceptions.HTTPError as e:
+	print( 'HTTP code is {} and reason is {}'.format( e.response.status_code, e.response.reason ) )
