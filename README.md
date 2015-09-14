@@ -1,2 +1,3 @@
-# iot-push-examples
-Example code snippets in various languages showing how to push data on the IoT metrics storage
+This repository contains examples of how to push data to the Runabove IoT metrics storage in different languages.
+
+The metrics storage uses the OpenTSDB API, and read-made libraries already exist in most languages.

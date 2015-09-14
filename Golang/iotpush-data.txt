@@ -1,0 +1,4 @@
+home.temp.indoor 1437591600 22.5 source=dht22
+home.temp.outdoor 1437591600 28.2 source=ds18b20
+home.temp.indoor 1437593400 22.1 source=dht22
+home.temp.outdoor 1437593400 27.1 source=ds18b20

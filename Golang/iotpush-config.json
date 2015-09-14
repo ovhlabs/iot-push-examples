@@ -1,0 +1,9 @@
+{
+  "dataFile":"iotpush-data.txt",
+  "sendType":"tls",
+  "endPoint":"opentsdb-internal.iot.runabove.io:4243",
+  "tokenId":"w3eaaaqaa7pff",
+  "tokenKey":"xyz123xyz123xyz123xyz123",
+  "tagList":{
+  }
+}
