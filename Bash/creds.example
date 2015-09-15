@@ -1,0 +1,11 @@
+#
+# IoT creds
+#
+
+# https://cloud.runabove.com/#/iot/<your_app>
+
+READ_TOKEN_ID=
+READ_TOKEN_KEY=
+
+WRITE_TOKEN_ID=
+WRITE_TOKEN_KEY=
