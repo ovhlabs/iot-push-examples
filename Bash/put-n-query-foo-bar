@@ -1,0 +1,45 @@
+#!/bin/bash
+set -euo pipefail
+
+source lib/iot-lib.sh
+
+# Put and Query
+
+echo '{
+    "metric":"foo",
+    "timestamp":'$(date +%s)',
+    "value":'0.$RANDOM',
+    "tags":{}
+}' | put
+
+echo '{
+    "start":0,
+    "queries":[{
+        "metric":"foo",
+        "aggregator":"avg",
+        "downsample":"10s-avg",
+        "tags":{}
+    }]
+}' | query
+
+# Or send key:value list and convert it with kv_to_put_json function
+
+tag='{"host":"'$HOSTNAME'"}'
+
+echo '\
+foo:42
+bar:12.34' \
+    | kv_to_put_json $tag \
+    | put
+
+# Query with json_avg_query function
+
+echo '{
+    "start":0,
+    "queries":[{
+        "metric":"bar",
+        "aggregator":"avg",
+        "downsample":"10s-avg",
+        "tags":'$tag'
+    }]
+}' | query

@@ -1,0 +1,26 @@
+#!/bin/bash
+set -euo pipefail
+
+source lib/iot-lib.sh
+
+# @param metric     the metric to query
+# @param startDate  the date to start the query (default: 0)
+#
+# @return a JSON object representing an OpenTSDB average query
+#
+json_avg_query() {
+    local metric=$1
+    local startDate=${2:-0}
+    
+    echo '{
+        "start":'$startDate',
+        "queries":[{
+            "metric":"'$metric'",
+            "aggregator":"avg",
+            "downsample":"10s-avg",
+            "tags": {"host": "'$HOSTNAME'"}
+        }]
+    }'
+}
+
+json_avg_query load.1min | query
