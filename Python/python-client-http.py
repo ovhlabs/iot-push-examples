@@ -1,11 +1,19 @@
+# -*- coding: utf8 -*-
+
 ###########################################################
 # OpenTSDB REST API session in a HTTPS connection example #
 ###########################################################
 
+from __future__ import print_function, unicode_literals
 import json
-import urllib2
-import urllib
-import base64
+
+# Requests library that hides much of the complexity of dealing with
+# HTTP requests in Python. Can either be installed with pip:
+#     pip install requests
+# or with your package manager:
+#     apt-get install python-requests
+#     yum install python-requests
+import requests
 
 # Place your token id here
 token_id = 'w3eaaaqaa7pff'
@@ -17,55 +25,53 @@ token_key = 'xyz123xyz123xyz123xyz123'
 end_point = 'https://opentsdb.iot.runabove.io/api/put'
 
 # Raw body data to send
-data = [{
-				'metric':'home.temp.indoor',
-				'timestamp':1437591600,
-				'value':22.5,
-				'tags':{
-					'source':'dht22'
-				}
-			},
-			{
-				'metric':'home.temp.outdoor',
-				'timestamp':1437591600,
-				'value':28.2,
-				'tags':{
-					'source':'ds18b20'
-				}
-			},
-			{
-				'metric':'home.temp.indoor',
-				'timestamp':1437593400,
-				'value':22.1,
-				'tags':{
-					'source':'dht22'
-				}
-			},
-			{
-				'metric':'home.temp.outdoor',
-				'timestamp':1437593400,
-				'value':27.1,
-				'tags':{
-					'source':'ds18b20'
-				}
-			}]
+data = [
+    {
+        'metric': 'home.temp.indoor',
+        'timestamp': 1437591600,
+        'value': 22.5,
+        'tags': {
+            'source': 'dht22'
+        }
+    },
+    {
+        'metric': 'home.temp.outdoor',
+        'timestamp': 1437591600,
+        'value': 28.2,
+        'tags': {
+            'source': 'ds18b20'
+        }
+    },
+    {
+        'metric': 'home.temp.indoor',
+        'timestamp': 1437593400,
+        'value': 22.1,
+        'tags': {
+            'source': 'dht22'
+        }
+    },
+    {
+        'metric': 'home.temp.outdoor',
+        'timestamp': 1437593400,
+        'value': 27.1,
+        'tags': {
+            'source': 'ds18b20'
+        }
+    }
+]
 
 try:
-	# Create http request
-	req = urllib2.Request(end_point, json.dumps(data), { 'Content-Type': 'application/json' } )
+    # Send request and fetch response
+    response = requests.post(end_point, data=json.dumps(data),
+                             auth=(token_id, token_key))
 
-	# Setup http basic auth
-	base64string = base64.encodestring( '%s:%s' % (token_id, token_key ) ).replace( '\n', '' )
-	req.add_header( 'Authorization', 'Basic %s' % base64string )
+    # Raise error if any
+    response.raise_for_status()
 
-	# Send request and fetch response
-	response = urllib2.urlopen(req)
+    # Print the http response code on success
+    print('Send successful\nResponse code from server: {}'.
+          format(response.status_code))
 
-	# Print the http response code on success
-	print( 'Send successful\nResponse code from server:{} '.format( response.getcode() ) )
-
-except urllib2.HTTPError, e:
-	print( 'HTTP code is {} and reason is {}'.format( e.code, e.reason ) )
-
-except Exception, e:
-    print( 'Exception is {} '.format( str( e ) ) )
+except requests.exceptions.HTTPError as e:
+    print('HTTP code is {} and reason is {}'.format(e.response.status_code,
+                                                    e.response.reason))
