@@ -2,7 +2,7 @@
 
 Create a [`creds`](creds.example) file with your tokens info.
 
-Source [lib/iot.lib.sh](lib/iot.lib.sh) and write some Bash:
+Source [lib/iot.lib.sh](lib/iot-lib.sh) and write some Bash:
 
     #!/bin/bash
     set -euo pipefail
