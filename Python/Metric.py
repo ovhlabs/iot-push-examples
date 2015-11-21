@@ -19,18 +19,6 @@ class Metric:
         self.timestamp = timestamp
         self.tags = tags
 
-    def getMetric(self):
-        return self.metric
-
-    def getValue(self):
-        return self.value
-
-    def getTimestamp(self):
-        return self.timestamp
-
-    def getTags(self):
-        return self.tags
-
     def getAsJsonString(self):
         return MetricEncoder().encode(self)
         #return json.dumps(self)

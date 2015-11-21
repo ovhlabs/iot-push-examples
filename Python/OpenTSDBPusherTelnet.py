@@ -34,7 +34,8 @@ class OpenTSDBPusher:
 
         print('Authenticating')
         # Send auth command
-        tls_client.send(('auth {}:{}\n'.format(openTSDBProfile.token_id, openTSDBProfile.token_password)).encode('utf-8'))
+        auth_command = ('auth {}:{}\n'.format(openTSDBProfile.token_id, openTSDBProfile.token_password))
+        tls_client.send(auth_command.encode('utf-8'))
 
         # Read received data
         data_in = tls_client.recv(1024)
@@ -49,7 +50,6 @@ class OpenTSDBPusher:
             tagsAsString = ""
             for key, value in metric.tags.iteritems():
                 tagsAsString = tagsAsString + " " + key + "=" + value
-
 
             tls_client.send(b'put '+ metric.metric +' '+ metric.timestamp +' '+ metric.value + ' ' + tagsAsString + '\n')
             print('Data sent')
