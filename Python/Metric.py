@@ -8,33 +8,33 @@ from json import JSONEncoder
 #
 class Metric:
 
-	metric = ""
-	value = 0.0
-	timestamp = 0
-	tags = {}
-	
-	def __init__(self, metricName, value, timestamp, tags):
-		self.metric = metricName
-		self.value = value
-		self.timestamp = timestamp
-		self.tags = tags
+    metric = ""
+    value = 0.0
+    timestamp = 0
+    tags = {}
+    
+    def __init__(self, metricName, value, timestamp, tags):
+        self.metric = metricName
+        self.value = value
+        self.timestamp = timestamp
+        self.tags = tags
 
-	def getMetric(self):
-		return self.metric
+    def getMetric(self):
+        return self.metric
 
-	def getValue(self):
-		return self.value
+    def getValue(self):
+        return self.value
 
-	def getTimestamp(self):
-		return self.timestamp
+    def getTimestamp(self):
+        return self.timestamp
 
-	def getTags(self):
-		return self.tags
+    def getTags(self):
+        return self.tags
 
-	def getAsJsonString(self):
-		return MetricEncoder().encode(self)
-		#return json.dumps(self)
+    def getAsJsonString(self):
+        return MetricEncoder().encode(self)
+        #return json.dumps(self)
 
 class MetricEncoder(JSONEncoder):
-	def default(self, o):
-		return o.__dict__
+    def default(self, o):
+        return o.__dict__

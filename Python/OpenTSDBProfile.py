@@ -9,13 +9,13 @@
 
 class OpenTSDBProfile:
 
-	token_id = ""
-	token_password = ""
-	url = ""
-	port = 0
+    token_id = ""
+    token_password = ""
+    url = ""
+    port = 0
 
-	def __init__(self, token_id, token_password, url, port):
-		self.token_id = token_id
-		self.token_password = token_password
-		self.url = url
-		self.port = port
+    def __init__(self, token_id, token_password, url, port):
+        self.token_id = token_id
+        self.token_password = token_password
+        self.url = url
+        self.port = port

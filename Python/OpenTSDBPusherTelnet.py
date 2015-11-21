@@ -23,42 +23,42 @@ from OpenTSDBProfile import OpenTSDBProfile
 class OpenTSDBPusher:
 
     def pushData(self, openTSDBProfile, metric):
-    	client_socket = socket(AF_INET, SOCK_STREAM)
-		client_socket.settimeout(1)
+        client_socket = socket(AF_INET, SOCK_STREAM)
+        client_socket.settimeout(1)
 
-		tls_client = wrap_socket(client_socket, ssl_version=PROTOCOL_TLSv1)
+        tls_client = wrap_socket(client_socket, ssl_version=PROTOCOL_TLSv1)
 
-		print('Opening connection')
-		# Connect to the echo server
-		tls_client.connect((openTSDBProfile.url, openTSDBProfile.port))
+        print('Opening connection')
+        # Connect to the echo server
+        tls_client.connect((openTSDBProfile.url, openTSDBProfile.port))
 
-		print('Authenticating')
-		# Send auth command
-		tls_client.send(('auth {}:{}\n'.format(openTSDBProfile.token_id, openTSDBProfile.token_password)).encode('utf-8'))
+        print('Authenticating')
+        # Send auth command
+        tls_client.send(('auth {}:{}\n'.format(openTSDBProfile.token_id, openTSDBProfile.token_password)).encode('utf-8'))
 
-		# Read received data
-		data_in = tls_client.recv(1024)
+        # Read received data
+        data_in = tls_client.recv(1024)
 
-		# Decode and print message
-		response = data_in.decode()
-		print('Read response: ' + response)
+        # Decode and print message
+        response = data_in.decode()
+        print('Read response: ' + response)
 
-		if response == 'ok\n':
-		    # Send data
-		    print('Sending data')
-		    tagsAsString = ""
-		    for key, value in metric.tags.iteritems():
-		    	tagsAsString = tagsAsString + " " + key + "=" + value
+        if response == 'ok\n':
+            # Send data
+            print('Sending data')
+            tagsAsString = ""
+            for key, value in metric.tags.iteritems():
+                tagsAsString = tagsAsString + " " + key + "=" + value
 
 
-		    tls_client.send(b'put '+ metric.metric +' '+ metric.timestamp +' '+ metric.value + ' ' + tagsAsString + '\n')
-		    print('Data sent')
-		else:
-		    print('Auth failed, not sending data.')
+            tls_client.send(b'put '+ metric.metric +' '+ metric.timestamp +' '+ metric.value + ' ' + tagsAsString + '\n')
+            print('Data sent')
+        else:
+            print('Auth failed, not sending data.')
 
-		# Send exit command to close connection
-		tls_client.send(b'exit\n')
+        # Send exit command to close connection
+        tls_client.send(b'exit\n')
 
-		# Close the socket
-		tls_client.shutdown(SHUT_RDWR)
-		tls_client.close()
+        # Close the socket
+        tls_client.shutdown(SHUT_RDWR)
+        tls_client.close()
