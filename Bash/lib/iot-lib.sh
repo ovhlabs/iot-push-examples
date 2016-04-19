@@ -22,7 +22,7 @@ put() {
 
 # Query data
 #
-# @param stdin JSON data to qyery (http://opentsdb.net/docs/build/html/api_http/query.html)
+# @param stdin JSON data to query (http://opentsdb.net/docs/build/html/api_http/query.html)
 #
 query() {
     curl -s \
@@ -30,6 +30,18 @@ query() {
         -XPOST "$IOT_API/api/query" \
         -d @- \
         $OPTS
+}
+
+# Delete data from query
+#
+# @param stdin JSON data to query (http://opentsdb.net/docs/build/html/api_http/query.html)
+#
+delete() {
+    curl -s \
+       -u $WRITE_TOKEN_ID:$WRITE_TOKEN_KEY \
+       -XDELETE "$IOT_API/api/query" \
+       -d @- \
+       $OPTS
 }
 
 # Utils

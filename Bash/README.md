@@ -37,3 +37,15 @@ Or send key:value list with `kv_to_put_json` function:
             "tags":{}
         }]
     }' | query
+
+### Delete
+
+    echo '{
+        "start":0,
+        "queries":[{
+            "metric":"foo",
+            "aggregator":"avg",
+            "downsample":"10s-avg",
+            "tags":{}
+        }]
+    }' | delete
