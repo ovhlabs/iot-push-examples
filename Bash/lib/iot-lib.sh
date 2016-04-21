@@ -44,9 +44,19 @@ delete() {
        $OPTS
 }
 
+# Get metrics
+#
+# @param none
+#
+listMetrics() {
+     curl -s \
+       -u $READ_TOKEN_ID:$READ_TOKEN_KEY \
+       -XGET "$IOT_API/api/suggest?type=metrics" \
+       $OPTS
+}
+
 # Utils
 
-# Transform a key/value list in JSON 'OpenTSDB put' data.
 # (http://opentsdb.net/docs/build/html/api_http/put.html)
 #
 # @param tag    optional JSON object for the tags (example: {"host": localhost})
