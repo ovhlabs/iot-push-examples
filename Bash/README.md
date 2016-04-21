@@ -49,3 +49,9 @@ Or send key:value list with `kv_to_put_json` function:
             "tags":{}
         }]
     }' | delete
+
+### List Metrics
+
+listMetrics
+
+returns all metrics for the current application

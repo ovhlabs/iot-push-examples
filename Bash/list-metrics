@@ -1,0 +1,10 @@
+#!/bin/bash
+set -euo pipefail
+
+source lib/iot-lib.sh
+
+#
+# @return a JSON object representing an OpenTSDB suggest metrics query
+#
+
+listMetrics
