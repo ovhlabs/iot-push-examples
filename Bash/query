@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-source lib/iot-lib.sh
+source lib/metrics-functions.sh
 
 # @param metric     the metric to query
 # @param startDate  the date to start the query (default: 0)
@@ -11,7 +11,7 @@ source lib/iot-lib.sh
 json_avg_query() {
     local metric=$1
     local startDate=${2:-0}
-    
+
     echo '{
         "start":'$startDate',
         "queries":[{

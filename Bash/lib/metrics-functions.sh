@@ -1,8 +1,8 @@
 #
-# IoT PAAS API put/query/utils bash functions.
+# Metrics data plaform API put/query/utils bash functions.
 #
 
-IOT_API=https://opentsdb.iot.runabove.io
+METRICS_API=https://opentsdb-gra1.tsaas.ovh.com
 OPTS="-w {\"status\":%{http_code},\"time\":%{time_total}}\n"
 
 [ ! -f creds ] && echo "error: please setup a creds file with write/read id and key tokens" && exit 1
@@ -15,7 +15,7 @@ source creds
 put() {
     curl -s \
         -u $WRITE_TOKEN_ID:$WRITE_TOKEN_KEY \
-        -XPOST "$IOT_API/api/put" \
+        -XPOST "$METRICS_API/api/put" \
         -d @- \
         $OPTS
 }
@@ -27,31 +27,31 @@ put() {
 query() {
     curl -s \
         -u $READ_TOKEN_ID:$READ_TOKEN_KEY \
-        -XPOST "$IOT_API/api/query" \
+        -XPOST "$METRICS_API/api/query" \
         -d @- \
         $OPTS
 }
 
 # Delete data from query
 #
-# @param stdin JSON data to query (http://opentsdb.net/docs/build/html/api_http/query.html)
+# @param stdin JSON data to delete (http://opentsdb.net/docs/build/html/api_http/query.html)
 #
 delete() {
     curl -s \
        -u $WRITE_TOKEN_ID:$WRITE_TOKEN_KEY \
-       -XDELETE "$IOT_API/api/query" \
+       -XDELETE "$METRICS_API/api/query" \
        -d @- \
        $OPTS
 }
 
-# Get metrics
+# Get metrics list
 #
 # @param none
 #
 listMetrics() {
      curl -s \
        -u $READ_TOKEN_ID:$READ_TOKEN_KEY \
-       -XGET "$IOT_API/api/suggest?type=metrics" \
+       -XGET "$METRICS_API/api/suggest?type=metrics" \
        $OPTS
 }
 
@@ -69,7 +69,7 @@ kv_to_put_json() {
     local now=$(date +%s)
     local comma=''
     local tags='"tags":'"$tag"
-    
+
     echo '['
     while read line
     do

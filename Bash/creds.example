@@ -1,8 +1,8 @@
 #
-# IoT creds
+# Metrics data platform creds
 #
 
-# https://cloud.runabove.com/#/iot/<your_app>
+# https://www.ovh.com/manager/cloud/index.html#/paas/dbaas/timeseries/project/<your_app>/keys
 
 READ_TOKEN_ID=
 READ_TOKEN_KEY=
